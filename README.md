@@ -52,7 +52,7 @@ ITEM_PIPELINES = {
 Step 2: Run the commands:
 
 ```sh
-scrapy crawl mogi_spider -o mogi_rentals_data.csv
+scrapy crawl mogi_spider -o mogi_rentals_data.csv -a pages_limit=PAGES_LIMIT (>2)
 ```
 
 "-o mogi_rentals_data.csv": This is optional to export the result into csv file.

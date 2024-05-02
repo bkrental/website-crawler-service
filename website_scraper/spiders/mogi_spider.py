@@ -4,12 +4,17 @@ from website_scraper.items import PostItem
 
 
 class MogiSpider(scrapy.Spider):
-    name = "mogi"
-    start_urls = [
-        "https://mogi.vn/ho-chi-minh/thue-phong-tro-nha-tro?d=1",
-    ]
+    name = "mogi_spider"
+
+    def __init__(self, category=None, *args, **kwargs):
+        super(MogiSpider, self).__init__(*args, **kwargs)
+        self.page_count = 1
+        self.start_urls = [
+            "https://mogi.vn/ho-chi-minh/thue-phong-tro-nha-tro?cp=1",
+        ]
 
     def parse(self, response: Response):
+        print(f"Scraping page {self.page_count}")
         posts = response.css("ul.props > *")
 
         for post in posts:
@@ -18,6 +23,16 @@ class MogiSpider(scrapy.Spider):
             yield response.follow(
                 post_url, self.parse_post_detail, meta={"post_url": post_url}
             )
+
+        print(f"pages_limit: {self.pages_limit}")
+        if self.page_count < int(self.pages_limit):
+            # if self.page_count < 30:
+            print(f"Page {self.page_count} done")
+            next_page = response.css("ul.pagination>li:last-child>a::attr(href)").get()
+            if next_page:
+                print(f"Next page: {next_page}")
+                self.page_count += 1
+                yield response.follow(next_page, self.parse)
 
     def parse_post_detail(self, response: Response):
         title = response.css(".title > h1::text").get()
