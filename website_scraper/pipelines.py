@@ -2,6 +2,7 @@ import re
 import requests
 from itemadapter import ItemAdapter
 import csv
+import re
 
 
 class MogiPipeline:
@@ -82,9 +83,18 @@ class MogiPipeline:
     def parse_address(self, address):
         address_details = address.strip().split(", ")
 
+        district_pattern = r"(Quận (2|9|Thủ Đức))( \(TP\.? Thủ Đức\))?"
+        province = address_details[-1]
+        district = address_details[-2]
+
+        if re.match(district_pattern, address_details[-2]):
+            province = "TP. Thủ Đức"
+            district = re.search(district_pattern, address_details[-2]).group(1)
+            print(district)
+
         return {
-            "province": address_details[-1],
-            "district": address_details[-2],
+            "province": province,
+            "district": district,
             "ward": address_details[-3],
             "street": address_details[-4],
         }
