@@ -29,8 +29,8 @@ class PricePrediction(Resource):
         return jsonify(prediction_result)
 
 
-api.add_resource(CheckHealth, "/")
-api.add_resource(PricePrediction, "/predict_price")
+api.add_resource(CheckHealth, "/prices/health")
+api.add_resource(PricePrediction, "/prices/prediction")
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
