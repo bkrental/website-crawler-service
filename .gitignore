@@ -1,0 +1,18 @@
+# Virtual environment
+venv/
+functions/*/venv/
+functions/__pycache__
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Terraform files
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+
+# Lambda packages
+*.zip

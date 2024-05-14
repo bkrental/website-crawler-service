@@ -1,0 +1,8 @@
+{
+  "Variables": {
+    "ENVIRONMENT": "local",
+    "RENTAL_SERVICE_URL": "http://localhost:3000",
+    "CRAWLING_URLS": "https://mogi.vn/thue-phong-tro-nha-tro?d=1,room,rent@https://mogi.vn/thue-can-ho?d=1,appartment,rent@https://mogi.vn/thue-nha?d=1,house,rent@https://mogi.vn/thue-van-phong?d=1,office,rent@https://mogi.vn/thue-nha-xuong-kho-bai-dat?d=1,land,rent",
+    "S3_BUCKET_NAME": "crawler-service-bucket"
+  }
+}
