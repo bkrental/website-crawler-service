@@ -3,6 +3,7 @@ import requests
 from itemadapter import ItemAdapter
 import csv
 import re
+from .utils import standardize_district, standardize_ward, standardize_province
 
 
 class MogiPipeline:
@@ -30,8 +31,9 @@ class MogiPipeline:
                 "description": adapter["description"],
                 "property_type": "room",
                 "transaction_type": "rent",
-                "price": float(self.parse_price(adapter["price"])),
+                "price": float(self.parse_price(adapter["price"])) * 1000000,
                 "address": self.parse_address(adapter["address"]),
+                "displayed_address": adapter["address"],
                 "location": {
                     "type": "Point",
                     "coordinates": adapter["coordinates"],
@@ -52,6 +54,7 @@ class MogiPipeline:
 
         if res.status_code != 201:
             print(res.json())
+            print("Error", res.keys())
             raise Exception(
                 f"Failed to store post to the rental service. Status code: {res.status_code}"
             )
@@ -92,10 +95,13 @@ class MogiPipeline:
             district = re.search(district_pattern, address_details[-2]).group(1)
             print(district)
 
+        district = standardize_district(district)
+        ward = standardize_ward(address_details[-3])
+
         return {
             "province": province,
             "district": district,
-            "ward": address_details[-3],
+            "ward": ward,
             "street": address_details[-4],
         }
 
