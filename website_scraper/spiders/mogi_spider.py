@@ -11,6 +11,11 @@ class MogiSpider(scrapy.Spider):
         self.page_count = 1
         self.start_urls = [
             "https://mogi.vn/ho-chi-minh/thue-phong-tro-nha-tro?cp=1",
+            "https://mogi.vn/thue-nha-dat?tp=10&fbr=1&tbr=1",
+            "https://mogi.vn/thue-nha-dat?tp=10&fbr=2&tbr=2",
+            "https://mogi.vn/thue-nha-dat?tp=20&fbr=3&tbr=3",
+            "https://mogi.vn/thue-nha-dat?tp=20&fbr=4&tbr=4",
+            "https://mogi.vn/thue-phong-tro-khu-nha-tro?tp=20&fbr=1&tbr=1",
         ]
 
     def parse(self, response: Response):
@@ -67,6 +72,9 @@ class MogiSpider(scrapy.Spider):
                 bedrooms = int(prop_value)
             elif prop_name == "Nhà tắm":
                 bathrooms = int(prop_value)
+
+        print("BEDROOMS", bedrooms)
+        print("BATHROOMS", bathrooms)
 
         item = PostItem(
             title,

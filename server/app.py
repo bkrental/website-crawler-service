@@ -13,12 +13,12 @@ from utils import (
 load_dotenv()
 
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 api = Api(app)
 
 current_env = os.getenv("FLASK_ENV", "production")  # Default to 'production' if not set
 print(current_env)
-print(app.config["DEBUG"])
+print(app.config["DEBUG"]) 
 
 
 class CheckHealth(Resource):
