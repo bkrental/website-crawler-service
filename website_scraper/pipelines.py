@@ -10,11 +10,12 @@ class MogiPipeline:
     def __init__(self):
         # Login to the rental service
         res = requests.post(
-            "http://localhost:3000/auth/login",
+            "https://rental-service.datnguyen2409.me/auth/login",
             json={"phone": "mogi_crawler", "password": "password123"},
         )
 
         if res.status_code != 200:
+            print("Error", res.json())
             raise Exception("Failed to login to the rental service")
 
         self.access_token = res.json()["data"]["access_token"]
@@ -24,7 +25,7 @@ class MogiPipeline:
 
         # Store to database
         res = requests.post(
-            "http://localhost:3000/posts",
+            "https://rental-service.datnguyen2409.me/posts",
             headers={"Authorization": f"Bearer {self.access_token}"},
             json={
                 "name": adapter["title"],
@@ -53,8 +54,7 @@ class MogiPipeline:
         )
 
         if res.status_code != 201:
-            print(res.json())
-            print("Error", res.keys())
+            print("Error in store", res.json())
             raise Exception(
                 f"Failed to store post to the rental service. Status code: {res.status_code}"
             )
